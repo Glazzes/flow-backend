@@ -1,0 +1,10 @@
+services:
+  postgres:
+    image: 'postgres:alpine'
+    container_name: flow-db
+    environment:
+      - 'POSTGRES_DB=flow'
+      - 'POSTGRES_USER=flow-admin'
+      - 'POSTGRES_PASSWORD=most-secure-password-ever'
+    ports:
+      - '5432:5432'
