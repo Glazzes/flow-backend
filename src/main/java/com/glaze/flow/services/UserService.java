@@ -2,7 +2,9 @@ package com.glaze.flow.services;
 
 import com.glaze.flow.dtos.request.SignUpRequest;
 import com.glaze.flow.entities.User;
+import com.glaze.flow.entities.UserDetails;
 import com.glaze.flow.mappers.UserMapper;
+import com.glaze.flow.repositories.UserDetailsRepository;
 import com.glaze.flow.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserDetailsRepository userDetailsRepository;
     private final UserMapper userMapper;
     private final AccountVerificationService accountVerificationService;
     private final EmailService emailService;
@@ -19,6 +22,10 @@ public class UserService {
     public Long save(SignUpRequest request) {
         User user = userMapper.signUpRequestToUser(request);
         User savedUser = userRepository.save(user);
+
+        UserDetails details = UserDetails.getRegisterInstance();
+        details.setUser(savedUser);
+        userDetailsRepository.save(details);
 
         Long issuedVerificationToken = accountVerificationService.issueVerificationTokenForUser(savedUser);
         if(issuedVerificationToken != null) {

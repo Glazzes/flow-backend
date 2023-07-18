@@ -10,7 +10,9 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Objects;
 
@@ -19,6 +21,8 @@ import java.util.Objects;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class UserDetails {
 
     @Id
@@ -26,7 +30,7 @@ public class UserDetails {
     private Long id;
 
     @Column(name = "is_active", nullable = false)
-    private boolean is_active;
+    private boolean isActive;
 
     @Column(name = "is_non_locked", nullable = false)
     private boolean isNonLocked;
@@ -41,11 +45,15 @@ public class UserDetails {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private User user;
 
+    public static UserDetails getRegisterInstance() {
+        return new UserDetails(null, false, true, true, true, null);
+    }
+
     @Override
     public String toString() {
         return "UserDetails{" +
             "id=" + id +
-            ", is_active=" + is_active +
+            ", is_active=" + isActive +
             ", isNonLocked=" + isNonLocked +
             ", hasNotExpired=" + hasNotExpired +
             ", areCredentialsNonExpired=" + areCredentialsNonExpired +
