@@ -1,20 +1,22 @@
 package com.glaze.flow.controllers;
 
+import com.glaze.flow.services.AccountVerificationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/api/v1/account")
+@RequiredArgsConstructor
 public class AccountRegistrationController {
+    private final AccountVerificationService accountVerificationService;
 
-    @GetMapping("/account-registration")
-    public String save(
-        @RequestParam(defaultValue = "Glaze") String name,
-        Model modeal
-    ) {
-        modeal.addAttribute("username", name);
-        return "/account-registration-email-sent";
+    @GetMapping("/account-activation/{userId}")
+    public String activateAccount(@PathVariable Long userId) {
+        accountVerificationService.activateAccount(userId);
+        return "dummy";
     }
 
 }
