@@ -1,0 +1,20 @@
+### Create new User
+POST http://localhost:8080/api/v1/users/account-registration
+Content-Type: application/json
+
+{
+  "username": "DenoTheDinosaur",
+  "password": "SomeEpicPassword",
+  "email": "santiuwu@protonmail.com"
+}
+
+### Create User With Fail Binding - Expects 400
+POST http://localhost:8080/api/v1/users/account-registration
+Content-Type: application/json
+Accept-Language: es
+
+{
+  "username": "",
+  "password": "",
+  "email": ""
+}
