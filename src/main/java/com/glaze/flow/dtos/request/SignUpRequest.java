@@ -9,6 +9,7 @@ public record SignUpRequest(
     String username,
 
     @Email(message = "{email.invalid}")
+    @NotBlank(message = "{generic.required}")
     String email,
 
     @NotBlank(message = "{generic.required}")
