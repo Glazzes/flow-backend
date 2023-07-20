@@ -14,4 +14,14 @@ public record SignUpRequest(
     @NotBlank(message = "{generic.required}")
     @Length(message = "{password.length}", max = 100, min = 8)
     String password
-){}
+){
+
+    @Override
+    public String toString() {
+        return "SignUpRequest{" +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
+
+}
