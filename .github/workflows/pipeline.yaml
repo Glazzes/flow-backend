@@ -1,0 +1,28 @@
+name: CI pipelines
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  test:
+    runs-on: ubuntu-18.04
+    name: test
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          cache: 'gradle'
+          distribution: 'corretto' # See 'Supported distributions' for available options
+          java-version: '17'
+      - name: Run tests
+        run: ./gradlew test
