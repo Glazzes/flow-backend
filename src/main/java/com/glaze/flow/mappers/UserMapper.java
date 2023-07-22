@@ -15,7 +15,7 @@ public interface UserMapper {
     @Mapping(target = "email", source = "email")
     @Mapping(target = "profilePicture", ignore = true)
     @Mapping(target = "details", ignore = true)
-    @Mapping(target = "verificationToken", ignore = true)
+    @Mapping(target = "otps", ignore = true)
     User signUpRequestToUser(SignUpRequest request);
 
 }

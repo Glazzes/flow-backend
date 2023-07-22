@@ -45,7 +45,7 @@ public class UserDetails {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private User user;
 
-    public static UserDetails getRegistrationInstance() {
+    public static UserDetails getSignUpInstance() {
         return new UserDetails(null, false, true, true, true, null);
     }
 
