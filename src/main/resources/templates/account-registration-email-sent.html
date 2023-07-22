@@ -12,7 +12,7 @@
 </head>
 <body>
     <p th:text="'Email has been to ' + ${username} + '!!!'">Welcome to out grocery</p>
-    <p class="title" th:text="#{email.invalid}">Pingus</p>
+    <p class="title" th:text="#{email.invalid}">Pinguin</p>
     <div th:if="${username.length()} > 5" class="box"></div>
     <a href="account-registration-email-sent" th:href="@{/account-registration(name='superglaze')}">Link back to this page</a>
 </body>

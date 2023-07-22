@@ -3,7 +3,7 @@ package com.glaze.flow.services;
 import com.glaze.flow.dtos.request.SignUpRequest;
 import com.glaze.flow.entities.User;
 import com.glaze.flow.entities.UserDetails;
-import com.glaze.flow.events.UserRegistrationEvent;
+import com.glaze.flow.events.SignUpEvent;
 import com.glaze.flow.mappers.UserMapper;
 import com.glaze.flow.repositories.UserRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -33,7 +33,7 @@ public class UserServiceTest {
         SignUpRequest request = new SignUpRequest("RandomUserName", "random@email.com", "password");
 
         // When
-        UserDetails details = UserDetails.getRegistrationInstance();
+        UserDetails details = UserDetails.getSignUpInstance();
         User newUser = User.builder()
                 .id(null)
                 .username(request.username())
@@ -45,7 +45,7 @@ public class UserServiceTest {
                 .verificationToken(null)
                 .build();
 
-        UserRegistrationEvent event = new UserRegistrationEvent(newUser);
+        SignUpEvent event = new SignUpEvent(newUser);
 
         when(userMapper.signUpRequestToUser(request))
                 .thenReturn(newUser);

@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         .title {
-            font-family: 'Inter', arial;
+            font-family: 'Inter', arial,sans-serif;
             font-weight: 800;
         }
 
@@ -21,13 +21,13 @@
         }
 
         .greeting {
-            font-family: 'Inter', arial;
+            font-family: 'Inter', arial, sans-serif;
             font-weight: 400;
             text-transform: capitalize;
         }
 
         .text {
-            font-family: 'Inter', arial;
+            font-family: 'Inter', arial, sans-serif;
             font-weight: 400;
         }
 
@@ -46,8 +46,11 @@
       the link down below.
   </p>
 
-  <a th:href="'http://localhost:' + ${port} + '/api/v1/account/account-activation/' + ${userId}"
-    href="www.google.com" class="text ">
+  <a
+    th:href="'http://localhost:' + ${port} + '/api/v1/account/account-activation/' + ${userId} + '?t=' + ${token}"
+    href="www.google.com"
+    class="link"
+  >
       click here
   </a>
 
