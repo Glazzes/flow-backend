@@ -1,8 +1,7 @@
 package com.glaze.flow.services;
 
 import com.glaze.flow.entities.User;
-import com.glaze.flow.events.EventHandler;
-import com.glaze.flow.events.UserRegistrationEvent;
+import com.glaze.flow.events.SignUpEvent;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -26,15 +25,13 @@ public class EmailService {
     private final static Logger LOGGER = LoggerFactory.getLogger(EmailService.class);
 
     @Async
-    @EventListener
-    public void sendAccountVerificationEmail(UserRegistrationEvent event) {
-        LOGGER.info("Handling user registration event with event {}", event);
-
-        User user = event.user();
+    public void sendAccountVerificationEmail(User user, String token) {
+        LOGGER.info("Sending account verification email for user with id {}", user.getId());
 
         Context context = new Context();
-        context.setVariable("username", "glaze");
+        context.setVariable("username", user.getUsername());
         context.setVariable("userId", user.getId());
+        context.setVariable("token", token);
         context.setVariable("port", 8080);
 
         String emailContent = templateEngine.process("/emails/account-verification", context);
@@ -46,8 +43,8 @@ public class EmailService {
             helper.setTo(user.getEmail());
             helper.setText(emailContent, true);
 
-            LOGGER.info("Sending registration event email to user's email address {}", user.getEmail());
             mailSender.send(helper.getMimeMessage());
+            LOGGER.info("Account verification email has been successfully sent to address {}", user.getEmail());
         }catch (MessagingException e) {
             e.printStackTrace();
         }
