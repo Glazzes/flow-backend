@@ -1,17 +1,12 @@
 package com.glaze.flow.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(
@@ -58,8 +53,8 @@ public class User {
     @OneToOne(mappedBy = "user")
     private UserDetails details;
 
-    @OneToOne(mappedBy = "user")
-    private AccountVerificationToken verificationToken;
+    @OneToMany(mappedBy = "user")
+    private Set<OTP> otps = new HashSet<>();
 
     @Override
     public String toString() {
