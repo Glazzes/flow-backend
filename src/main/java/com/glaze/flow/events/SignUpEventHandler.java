@@ -18,8 +18,12 @@ public class SignUpEventHandler {
     @EventListener
     public void handleSignUp(SignUpEvent signUpEvent) {
         userDetailsService.save(signUpEvent.user());
-        OTPService.AccountVerification result = otpService.saveAccountActivationToken(signUpEvent.user());
-        emailService.sendAccountVerificationEmail(result.user(), result.token());
+        otpService.saveAccountActivationToken(signUpEvent.user());
+    }
+
+    @EventListener
+    public void handleSendEmailVerificationEmail(SendEmailVerificationEvent event) {
+        emailService.sendAccountVerificationEmail(event);
     }
 
 }
