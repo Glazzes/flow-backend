@@ -8,7 +8,7 @@ import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 import java.util.Locale;
 
 @Configuration
-public class InternationalizationWebConfiguration {
+public class LocalizationConfiguration {
 
     @Bean
     public LocaleResolver localeResolver() {

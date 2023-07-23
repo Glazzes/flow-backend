@@ -1,6 +1,7 @@
 package com.glaze.flow.services;
 
 import com.glaze.flow.entities.User;
+import com.glaze.flow.events.SendEmailVerificationEvent;
 import com.glaze.flow.events.SignUpEvent;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -25,13 +26,14 @@ public class EmailService {
     private final static Logger LOGGER = LoggerFactory.getLogger(EmailService.class);
 
     @Async
-    public void sendAccountVerificationEmail(User user, String token) {
+    public void sendAccountVerificationEmail(SendEmailVerificationEvent event) {
+        User user = event.user();
         LOGGER.info("Sending account verification email for user with id {}", user.getId());
 
         Context context = new Context();
         context.setVariable("username", user.getUsername());
         context.setVariable("userId", user.getId());
-        context.setVariable("token", token);
+        context.setVariable("token", event.token());
         context.setVariable("port", 8080);
 
         String emailContent = templateEngine.process("/emails/account-verification", context);

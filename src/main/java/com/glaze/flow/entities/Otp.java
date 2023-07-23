@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(name = "otp")
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OTP {
+public class Otp {
 
     @Id
     @SequenceGenerator(
@@ -41,4 +42,25 @@ public class OTP {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Override
+    public String toString() {
+        return "Otp{" +
+            "id=" + id +
+            ", type=" + type +
+            ", expiresAt=" + expiresAt +
+            '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Otp otp = (Otp) o;
+        return Objects.equals(id, otp.id) && Objects.equals(token, otp.token);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
