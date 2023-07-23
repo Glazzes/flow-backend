@@ -42,7 +42,6 @@ public class UserServiceTest {
                 .displayUsername(request.username())
                 .profilePicture(null)
                 .details(details)
-                .verificationToken(null)
                 .build();
 
         SignUpEvent event = new SignUpEvent(newUser);
