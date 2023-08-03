@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 import java.util.Locale;
 
@@ -12,8 +13,9 @@ public class LocalizationConfiguration {
 
     @Bean
     public LocaleResolver localeResolver() {
-        AcceptHeaderLocaleResolver resolver = new AcceptHeaderLocaleResolver();
-        resolver.setDefaultLocale(Locale.ENGLISH);
+        AcceptHeaderLocaleResolver resolver = new CustomAcceptHeaderLocaleResolver();
+        resolver.setDefaultLocale(Locale.US);
+
         return resolver;
     }
 
