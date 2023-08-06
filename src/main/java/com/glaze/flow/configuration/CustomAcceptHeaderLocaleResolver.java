@@ -1,19 +1,29 @@
 package com.glaze.flow.configuration;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
+import java.util.IllformedLocaleException;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CustomAcceptHeaderLocaleResolver extends AcceptHeaderLocaleResolver {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomAcceptHeaderLocaleResolver.class);
+    private static final Pattern REGEX = Pattern.compile("^([a-z]{2})[_-]?([A-Z]{2}).*$");
 
     @Override
     public Locale resolveLocale(HttpServletRequest request) {
         String localeHeader = request.getHeader("Accept-Language");
         if(localeHeader != null) {
-            String languageCode = this.extractLanguageCode(localeHeader);
-            return new Locale(languageCode);
+            Locale currentLocale = convertAcceptHeeaderToLocale(localeHeader);
+            if (currentLocale != null) {
+                return currentLocale;
+            }
         }
 
         Locale requestLocale = request.getLocale();
@@ -26,14 +36,28 @@ public class CustomAcceptHeaderLocaleResolver extends AcceptHeaderLocaleResolver
         return (defaultLocale != null ? defaultLocale : requestLocale);
     }
 
-    public String extractLanguageCode(String acceptLanguageHeader) {
-        StringBuilder builder = new StringBuilder();
-        for(char c : acceptLanguageHeader.toCharArray()) {
-            if(c == '_') break;
-            builder.append(c);
+    public Locale convertAcceptHeeaderToLocale(String acceptLanguageHeader) {
+        LOGGER.info("Converting language header {} to Locale", acceptLanguageHeader);
+        Matcher matcher = REGEX.matcher(acceptLanguageHeader);
+        boolean doesNotMatchRegex = !matcher.matches();
+        if (doesNotMatchRegex) {
+            return null;
         }
 
-        return builder.toString();
+        String language = matcher.group(1);
+        String region = matcher.group(2);
+        Locale.Builder builder = new Locale.Builder();
+        try {
+            if (language != null )builder.setLanguage(language);
+            if (region != null )builder.setRegion(region);
+            LOGGER.info("Accept-Language {} header was successfully parsed", acceptLanguageHeader);
+
+            return builder.build();
+        }catch (IllformedLocaleException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
 }

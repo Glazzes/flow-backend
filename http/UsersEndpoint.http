@@ -1,7 +1,7 @@
 ### Create new user, expect success - Status 200
 POST http://localhost:8080/api/v1/users/account-registration
 Content-Type: application/json
-Accept-Language: es
+Accept-Language: es_ES
 
 {
   "username": "Deno",
@@ -12,7 +12,7 @@ Accept-Language: es
 ### Create new user, expect binding failure - Status 404
 POST http://localhost:8080/api/v1/users/account-registration
 Content-Type: application/json
-Accept-Language: es
+Accept-Language: es_CO
 
 {
   "username": "",
