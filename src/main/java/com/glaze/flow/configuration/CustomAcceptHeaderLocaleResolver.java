@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 public class CustomAcceptHeaderLocaleResolver extends AcceptHeaderLocaleResolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomAcceptHeaderLocaleResolver.class);
-    private static final Pattern REGEX = Pattern.compile("^([a-z]{2})[_-]?([A-Z]{2}).*$");
+    private static final Pattern PATTERN = Pattern.compile("^([a-z]{1,8})(?:[_-]([A-Z]{1,8}))?.*$");
 
     @Override
     public Locale resolveLocale(HttpServletRequest request) {
@@ -37,8 +37,8 @@ public class CustomAcceptHeaderLocaleResolver extends AcceptHeaderLocaleResolver
     }
 
     public Locale convertAcceptHeeaderToLocale(String acceptLanguageHeader) {
-        LOGGER.info("Converting language header {} to Locale", acceptLanguageHeader);
-        Matcher matcher = REGEX.matcher(acceptLanguageHeader);
+        LOGGER.info("Parsing Accept-Language header {} to Locale", acceptLanguageHeader);
+        Matcher matcher = PATTERN.matcher(acceptLanguageHeader);
         boolean doesNotMatchRegex = !matcher.matches();
         if (doesNotMatchRegex) {
             return null;
