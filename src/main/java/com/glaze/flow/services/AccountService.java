@@ -1,5 +1,6 @@
 package com.glaze.flow.services;
 
+import com.glaze.flow.constants.LocalizationConstants;
 import com.glaze.flow.entities.Otp;
 import com.glaze.flow.enums.OTPType;
 import com.glaze.flow.exceptions.ResourceExpiredException;
@@ -20,13 +21,13 @@ public class AccountService {
     @Transactional
     public void activateAccount(Long userId, String token) {
         Otp otp = otpRepository.findByUserIdAndTokenAndType(userId, token, OTPType.ACCOUNT_ACTIVATION)
-            .orElseThrow(() -> new ResourceNotFoundException("key"));
+            .orElseThrow(() -> new ResourceNotFoundException(LocalizationConstants.RESOURCE_NOT_FOUND));
 
         boolean isTokenExpired = otp.getExpiresAt()
             .isBefore(LocalDateTime.now());
 
         if(isTokenExpired) {
-            throw new ResourceExpiredException("key");
+            throw new ResourceExpiredException(LocalizationConstants.RESOURCE_EXPIRED);
         }
 
         boolean areDifferentTokens = !otp.getToken().equals(token);
