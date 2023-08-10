@@ -20,10 +20,7 @@ public class AccountController {
     private final AccountService accountService;
 
     @GetMapping("/account-activation/{userId}")
-    public String activateAccount(
-        @PathVariable Long userId,
-        @RequestParam(name = "t") String token
-    ) {
+    public String activateAccount(@PathVariable Long userId, @RequestParam(name = "t") String token) {
         LOGGER.info("GET request at account activation endpoint userId {}", userId);
 
         accountService.activateAccount(userId, token);

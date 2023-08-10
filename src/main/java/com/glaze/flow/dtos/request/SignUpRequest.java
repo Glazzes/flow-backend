@@ -1,13 +1,18 @@
 package com.glaze.flow.dtos.request;
 
+import com.glaze.flow.validators.email.EmailMustNotBePresent;
+import com.glaze.flow.validators.username.UsernameMustNotBePresent;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
 
 public record SignUpRequest(
+
+    @UsernameMustNotBePresent(message = "{constraints.username.already-exists}")
     @NotBlank(message = "{constraints.field-required}")
     String username,
 
+    @EmailMustNotBePresent(message = "{constraints.email.already-exists}")
     @Email(message = "{constraints.email.invalid}")
     @NotBlank(message = "{constraints.field-required}")
     String email,

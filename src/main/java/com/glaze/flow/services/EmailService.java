@@ -1,14 +1,17 @@
 package com.glaze.flow.services;
 
+import com.glaze.flow.constants.EmailLocalizationConstants;
 import com.glaze.flow.entities.User;
 import com.glaze.flow.events.SendEmailVerificationEvent;
 import com.glaze.flow.events.SignUpEvent;
+import com.glaze.flow.utils.LocalizationMessageUtil;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -22,6 +25,7 @@ public class EmailService {
 
     private final JavaMailSender mailSender;
     private final TemplateEngine templateEngine;
+    private final LocalizationMessageUtil messageUtil;
 
     private final static Logger LOGGER = LoggerFactory.getLogger(EmailService.class);
 
@@ -31,6 +35,7 @@ public class EmailService {
         LOGGER.info("Sending account verification email for user with id {}", user.getId());
 
         Context context = new Context();
+        context.setLocale(LocaleContextHolder.getLocale());
         context.setVariable("username", user.getUsername());
         context.setVariable("userId", user.getId());
         context.setVariable("token", event.token());
@@ -41,7 +46,8 @@ public class EmailService {
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         try{
-            helper.setSubject("Flow verify your account");
+            String subject = messageUtil.getMessage(EmailLocalizationConstants.VERIFICATION_SUBJECT);
+            helper.setSubject(subject);
             helper.setTo(user.getEmail());
             helper.setText(emailContent, true);
 
