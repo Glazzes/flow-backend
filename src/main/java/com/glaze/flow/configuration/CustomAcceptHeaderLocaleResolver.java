@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 public class CustomAcceptHeaderLocaleResolver extends AcceptHeaderLocaleResolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomAcceptHeaderLocaleResolver.class);
-    private static final Pattern PATTERN = Pattern.compile("^([a-z]{1,8})(?:[_-]([A-Z]{1,8}))?.*$");
+    private static final Pattern PATTERN = Pattern.compile("^([a-z]{2,8})(?:[_-](\\w{2}|\\d{3}))?.*$");
 
     @Override
     public Locale resolveLocale(HttpServletRequest request) {
@@ -55,9 +55,8 @@ public class CustomAcceptHeaderLocaleResolver extends AcceptHeaderLocaleResolver
             return builder.build();
         }catch (IllformedLocaleException e) {
             e.printStackTrace();
+            return null;
         }
-
-        return null;
     }
 
 }
