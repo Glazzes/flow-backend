@@ -20,18 +20,18 @@ public class AccountService {
 
     @Transactional
     public void activateAccount(Long userId, String token) {
-        Otp otp = otpRepository.findByUserIdAndTokenAndType(userId, token, OTPType.ACCOUNT_ACTIVATION)
-            .orElseThrow(() -> new ResourceNotFoundException(LocalizationConstants.RESOURCE_NOT_FOUND));
+        Otp otp = otpRepository.findByIdAndTokenAndType(userId, token, OTPType.ACCOUNT_ACTIVATION)
+            .orElseThrow(() -> new ResourceNotFoundException(LocalizationConstants.RESOURCE_NOT_FOUND, userId));
 
-        boolean isTokenExpired = otp.getExpiresAt()
+        boolean isThisTokenExpired = otp.getExpiresAt()
             .isBefore(LocalDateTime.now());
 
-        if(isTokenExpired) {
+        if(isThisTokenExpired) {
             throw new ResourceExpiredException(LocalizationConstants.RESOURCE_EXPIRED);
         }
 
-        boolean areDifferentTokens = !otp.getToken().equals(token);
-        if(areDifferentTokens) {
+        boolean areTokensDifferent = !otp.getToken().equals(token);
+        if(areTokensDifferent) {
             throw new IllegalStateException("key");
         }
 

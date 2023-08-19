@@ -13,15 +13,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/api/v1/account")
-@RequiredArgsConstructor
 public class AccountController {
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountController.class);
 
     private final AccountService accountService;
 
+    public AccountController(AccountService accountService) {
+        this.accountService = accountService;
+    }
+
     @GetMapping("/account-activation/{userId}")
     public String activateAccount(@PathVariable Long userId, @RequestParam(name = "t") String token) {
-        LOGGER.info("GET request at account activation endpoint userId {}", userId);
+        LOGGER.info("GET request at account activation endpoint with userId {}", userId);
 
         accountService.activateAccount(userId, token);
         return "dummy";

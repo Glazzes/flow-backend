@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface OtpRepository extends JpaRepository<Otp, Long> {
 
-    @Query("select o from Otp o where o.user.id = :userId and o.token = :token and o.type = :type")
-    Optional<Otp> findByUserIdAndTokenAndType(Long userId, String token, OTPType type);
+    @Query("select o from Otp o where o.id = :userId and o.token = :token and o.type = :type")
+    Optional<Otp> findByIdAndTokenAndType(Long id, String token, OTPType type);
 
 }

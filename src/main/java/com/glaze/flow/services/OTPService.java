@@ -12,7 +12,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 @Service
@@ -26,8 +25,7 @@ public class OTPService {
     public void saveAccountActivationToken(User user) {
         LOGGER.info("Issuing new account verification token for user with id {}", user.getId());
         String token = UUID.randomUUID().toString();
-        LocalDateTime tomorrow = LocalDateTime.now()
-            .plus(1L, ChronoUnit.DAYS);
+        LocalDateTime tomorrow = LocalDateTime.now().plusDays(1L);
 
         Otp accountVerificationOTP = Otp.builder()
             .id(null)
