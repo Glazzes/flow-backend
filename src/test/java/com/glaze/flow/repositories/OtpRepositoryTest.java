@@ -53,7 +53,7 @@ class OtpRepositoryTest {
         underTest.save(otp);
 
         // Then
-        Optional<Otp> result = underTest.findByUserIdAndTokenAndType(user.getId(), token, OTPType.ACCOUNT_ACTIVATION);
+        Optional<Otp> result = underTest.findByIdAndTokenAndType(user.getId(), token, OTPType.ACCOUNT_ACTIVATION);
         assertThat(result).isPresent()
             .hasValueSatisfying(o -> assertThat(o).isEqualTo(otp));
     }
