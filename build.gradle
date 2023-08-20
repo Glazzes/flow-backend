@@ -2,6 +2,8 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.1.1'
 	id 'io.spring.dependency-management' version '1.1.0'
+    id 'checkstyle'
+    id 'pmd'
 }
 
 group = 'com.glaze'
@@ -39,6 +41,21 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
 	testImplementation 'org.testcontainers:junit-jupiter'
 	testImplementation 'org.testcontainers:postgresql'
+}
+
+pmd {
+    consoleOutput = true
+    rulesMinimumPriority.set(5)
+    sourceSets = List.of(
+            project.sourceSets.named('main').get(),
+            project.sourceSets.named('test').get()
+    )
+    ruleSets = List.of()
+    ruleSetFiles = files(
+            "$projectDir/config/pmd/best-practices.xml",
+            "$projectDir/config/pmd/performance.xml",
+            "$projectDir/config/pmd/error-prone.xml"
+    )
 }
 
 tasks.named('test') {
