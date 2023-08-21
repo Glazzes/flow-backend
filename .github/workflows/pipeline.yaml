@@ -18,9 +18,15 @@ jobs:
     runs-on: ubuntu-latest
     name: Code linting
     steps:
-      - name: PMD checks
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          cache: gradle
+          distribution: corretto
+          java-version: 17
+      - name: Check PMD rules
         run: ./gradlew pmdMain pmdTest
-      - name: CheckStyle checks
+      - name: Checkstyle rules
         if: success() || failure()
         run: ./gradlew checkstyleMain checkstyleTest
 
@@ -28,6 +34,13 @@ jobs:
     runs-on: ubuntu-latest
     name: Code vulnerability scan
     steps:
+      - uses: actions/checkout@v3
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          cache: gradle
+          distribution: corretto
+          java-version: 17
       - name: Vulnerability scan
         uses: anchore/scan-action@v3
         id: scan
@@ -50,13 +63,13 @@ jobs:
     steps:
       - name: Checkout Github repository
         uses: actions/checkout@v3
-      - name: Validate Gradle wrapper
-        uses: gradle/wrapper-validation-action@v1
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
           cache: gradle
           distribution: corretto
           java-version: 17
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
       - name: Run tests with Gradle
         run: ./gradlew test
