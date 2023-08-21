@@ -8,13 +8,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.util.Objects;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.Objects;
 
 @Entity
 @Table(name = "user_details")
@@ -62,8 +62,13 @@ public class UserDetails {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if(o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if(o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         UserDetails details = (UserDetails) o;
         return Objects.equals(this.id, details.id);

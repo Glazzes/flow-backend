@@ -1,9 +1,9 @@
 package com.glaze.flow.configuration;
 
+import java.util.Locale;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

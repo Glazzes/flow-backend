@@ -1,5 +1,9 @@
 package com.glaze.flow.exceptions;
 
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import com.glaze.flow.utils.LocalizationMessageUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -8,10 +12,6 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class APIExceptionHandler {
@@ -22,7 +22,7 @@ public class APIExceptionHandler {
         this.messageUtil = messageUtil;
     }
 
-    @ExceptionHandler({BindException.class})
+    @ExceptionHandler(BindException.class)
     public ResponseEntity<ProblemDetail> handleBindException(BindException exception) {
         Map<String, List<String>> errors = exception.getFieldErrors()
             .stream()
@@ -42,7 +42,7 @@ public class APIExceptionHandler {
             .body(problemDetail);
     }
 
-    @ExceptionHandler({ResourceNotFoundException.class})
+    @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ProblemDetail> handleResourceNotFoundException(ResourceNotFoundException exception) {
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
 

@@ -1,5 +1,8 @@
 package com.glaze.flow.services;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 import com.github.javafaker.Faker;
 import com.glaze.flow.entities.Otp;
 import com.glaze.flow.entities.User;
@@ -17,15 +20,15 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@ExtendWith({MockitoExtension.class})
+@ExtendWith(MockitoExtension.class)
 @DisplayName("AccountService Tests")
 class AccountServiceTest {
     private AccountService underTest;

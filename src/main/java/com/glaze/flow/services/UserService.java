@@ -1,12 +1,12 @@
 package com.glaze.flow.services;
 
+import jakarta.transaction.Transactional;
+
 import com.glaze.flow.dtos.request.SignUpRequest;
 import com.glaze.flow.entities.User;
-import com.glaze.flow.entities.UserDetails;
 import com.glaze.flow.events.SignUpEvent;
 import com.glaze.flow.mappers.UserMapper;
 import com.glaze.flow.repositories.UserRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

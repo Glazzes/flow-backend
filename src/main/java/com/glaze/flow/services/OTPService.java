@@ -1,5 +1,8 @@
 package com.glaze.flow.services;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 import com.glaze.flow.entities.Otp;
 import com.glaze.flow.entities.User;
 import com.glaze.flow.enums.OTPType;
@@ -10,9 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor

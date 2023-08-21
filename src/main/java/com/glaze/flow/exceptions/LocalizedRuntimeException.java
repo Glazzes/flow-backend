@@ -1,5 +1,7 @@
 package com.glaze.flow.exceptions;
 
+import java.util.Arrays;
+
 public class LocalizedRuntimeException extends RuntimeException {
     private final String messageKey;
     private final Object[] objects;
@@ -14,12 +16,15 @@ public class LocalizedRuntimeException extends RuntimeException {
         this.objects = objects;
     }
 
-
     public String getMessageKey() {
         return messageKey;
     }
 
     public Object[] getObjects() {
-        return objects;
+        if(objects != null) {
+            return Arrays.copyOf(objects, objects.length);
+        }
+
+        return null;
     }
 }

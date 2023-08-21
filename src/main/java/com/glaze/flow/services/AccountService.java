@@ -1,16 +1,16 @@
 package com.glaze.flow.services;
 
+import jakarta.transaction.Transactional;
+import java.time.LocalDateTime;
+
 import com.glaze.flow.constants.LocalizationConstants;
 import com.glaze.flow.entities.Otp;
 import com.glaze.flow.enums.OTPType;
 import com.glaze.flow.exceptions.ResourceExpiredException;
 import com.glaze.flow.exceptions.ResourceNotFoundException;
 import com.glaze.flow.repositories.OtpRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor

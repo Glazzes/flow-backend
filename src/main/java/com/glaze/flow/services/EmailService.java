@@ -1,16 +1,15 @@
 package com.glaze.flow.services;
 
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+
 import com.glaze.flow.constants.EmailLocalizationConstants;
 import com.glaze.flow.entities.User;
 import com.glaze.flow.events.SendEmailVerificationEvent;
-import com.glaze.flow.events.SignUpEvent;
 import com.glaze.flow.utils.LocalizationMessageUtil;
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.event.EventListener;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -54,7 +53,7 @@ public class EmailService {
             mailSender.send(helper.getMimeMessage());
             LOGGER.info("Account verification email has been successfully sent to address {}", user.getEmail());
         }catch (MessagingException e) {
-            e.printStackTrace();
+            LOGGER.info("Account verification email could have not been sent");
         }
     }
 

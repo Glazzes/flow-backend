@@ -1,8 +1,9 @@
 package com.glaze.flow.validators.username;
 
-import com.glaze.flow.repositories.UserRepository;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+
+import com.glaze.flow.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
