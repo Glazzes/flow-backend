@@ -53,6 +53,7 @@ dependencies {
 	testImplementation 'org.testcontainers:junit-jupiter'
 	testImplementation 'org.testcontainers:postgresql'
 	testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+<<<<<<< HEAD
 }
 
 pmd {
@@ -68,6 +69,8 @@ pmd {
             "$projectDir/config/pmd/performance.xml",
             "$projectDir/config/pmd/error-prone.xml"
     )
+=======
+>>>>>>> 45406c528a39c17117586fc7ca348bac9b05a35e
 }
 
 tasks.named('test') {
