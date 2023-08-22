@@ -39,23 +39,16 @@
 <body>
   <h1 class="title">Flow<span class="dot">.</span></h1>
 
-  <span th:text="#{email.verification.title(${username})}" class="text">Hello user,</span>
+  <span th:text="#{email.verification.greeting(${username})}" class="text"></span>
+  <p th:text="#{email.verification.message}" class="text"></p>
 
-  <p th:text="#{email.verification.description}" class="text">
-      Your account has been created successfully! In order to login you must activate your account by clicking
-      the link down below.
-  </p>
-
-  <a
+  <a th:text="#{email.verification.activate}"
     th:href="'http://localhost:' + ${port} + '/api/v1/account/account-activation/' + ${userId} + '?t=' + ${token}"
     href="www.google.com"
     class="link"
   >
-      click here
   </a>
 
-  <p th:text="#{email.verification.not-yours}" class="text">
-      If you didn't create a flow account, ignore this email
-  </p>
+  <p th:text="#{email.verification.not-your-account}" class="text"></p>
 </body>
 </html>

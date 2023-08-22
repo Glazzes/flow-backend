@@ -8,6 +8,7 @@ import com.glaze.flow.entities.Otp;
 import com.glaze.flow.entities.User;
 import com.glaze.flow.entities.UserDetails;
 import com.glaze.flow.enums.OTPType;
+import com.glaze.flow.events.ActivateAccountEvent;
 import com.glaze.flow.exceptions.ResourceExpiredException;
 import com.glaze.flow.exceptions.ResourceNotFoundException;
 import com.glaze.flow.repositories.OtpRepository;
@@ -19,12 +20,12 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEventPublisher;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -34,11 +35,12 @@ class AccountServiceTest {
     private AccountService underTest;
     private Faker faker;
     @Mock private OtpRepository otpRepository;
+    @Mock private ApplicationEventPublisher eventPublisher;
     @Captor private ArgumentCaptor<Otp> argumentCaptor;
 
     @BeforeEach
     void setUp() {
-        underTest = new AccountService(otpRepository);
+        underTest = new AccountService(otpRepository, eventPublisher);
         faker = new Faker();
     }
 
@@ -51,10 +53,10 @@ class AccountServiceTest {
         OTPType type = OTPType.ACCOUNT_ACTIVATION;
 
         // When
-        UserDetails userDetails = spy(UserDetails.getSignUpInstance());
+        UserDetails userDetails = UserDetails.getSignUpInstance();
 
         String username = faker.name().username();
-        User user = spy(User.builder()
+        User user = User.builder()
             .id(faker.number().randomNumber())
             .username(username)
             .displayUsername(username)
@@ -62,16 +64,14 @@ class AccountServiceTest {
             .details(userDetails)
             .password(faker.internet().password())
             .profilePicture(faker.avatar().image())
-            .build()
-        );
+            .build();
 
-        Otp otp = spy(Otp.builder()
+        Otp otp = Otp.builder()
             .token(token)
             .type(OTPType.ACCOUNT_ACTIVATION)
             .expiresAt(LocalDateTime.now().plusHours(1L))
             .user(user)
-            .build()
-        );
+            .build();
 
         Optional<Otp> otpOptional = Optional.ofNullable(otp);
         when(otpRepository.findByIdAndTokenAndType(tokenId, token, type))
@@ -80,11 +80,8 @@ class AccountServiceTest {
         // Then
         underTest.activateAccount(tokenId, token);
         verify(otpRepository).delete(argumentCaptor.capture());
+        verify(eventPublisher).publishEvent(any(ActivateAccountEvent.class));
         assertThat(otp).isEqualTo(argumentCaptor.getValue());
-
-        verify(otp).getUser();
-        verify(user).getDetails();
-        verify(userDetails).setActive(true);
     }
 
     @Test
