@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active:
+      - base
+      - dev
+  config:
+    location:
+      - classpath:/resources/config/application-base.yaml
+      - classpath:/resources/config/application-dev.yaml

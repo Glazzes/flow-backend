@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        .title {
+            font-family: 'Inter', arial,sans-serif;
+            font-weight: 800;
+        }
+
+        .dot {
+            color: #3366ff;
+        }
+
+        .greeting {
+            font-family: 'Inter', arial, sans-serif;
+            font-weight: 400;
+            text-transform: capitalize;
+        }
+
+        .text {
+            font-family: 'Inter', arial, sans-serif;
+            font-weight: 400;
+        }
+
+        .link {
+            color: #3366ff;
+        }
+    </style>
+</head>
+<body>
+  <h1 class="title">Flow<span class="dot">.</span></h1>
+
+  <span th:text="#{email.verification.greeting(${username})}" class="text"></span>
+  <p th:text="#{email.verification.message}" class="text"></p>
+
+  <a th:text="#{email.verification.activate}"
+    th:href="'http://localhost:' + ${port} + '/api/v1/account/account-activation/' + ${userId} + '?t=' + ${token}"
+    href="www.google.com"
+    class="link"
+  >
+  </a>
+
+  <p th:text="#{email.verification.not-your-account}" class="text"></p>
+</body>
+</html>
