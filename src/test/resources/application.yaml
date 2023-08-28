@@ -1,4 +1,10 @@
 spring:
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    protocol: smtp
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
 
   jpa:
     show-sql: true
