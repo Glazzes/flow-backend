@@ -19,8 +19,9 @@ public class ApplicationSecurityConfiguration {
     @Bean
     @Order(2)
     public SecurityFilterChain applicationSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.formLogin(c -> {})
-            .authorizeHttpRequests(c -> c.anyRequest().authenticated());
+        httpSecurity.formLogin(Customizer.withDefaults())
+            .authorizeHttpRequests(c -> c.anyRequest().authenticated()
+            );
 
         return httpSecurity.build();
     }
