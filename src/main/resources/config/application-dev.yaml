@@ -1,3 +1,9 @@
+application:
+  keystore:
+    key-alias: flow
+    key-store-type: PKCS12
+    key-store-password: roof-cat
+
 spring:
   mail:
     host: ${MAIL_HOST:smtp.gmail.com}
