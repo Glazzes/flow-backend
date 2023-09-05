@@ -1,4 +1,4 @@
-package com.glaze.flow.configuration;
+package com.glaze.flow.configuration.i18n;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.IllformedLocaleException;

@@ -2,6 +2,7 @@ package com.glaze.flow.configuration;
 
 import java.util.Locale;
 
+import com.glaze.flow.configuration.i18n.CustomAcceptHeaderLocaleResolver;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
