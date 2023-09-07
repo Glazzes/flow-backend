@@ -6,13 +6,14 @@ import com.glaze.flow.entities.UserDetails;
 import com.glaze.flow.events.SignUpEvent;
 import com.glaze.flow.mappers.UserMapper;
 import com.glaze.flow.repositories.UserRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -20,11 +21,16 @@ import static org.mockito.Mockito.when;
 @DisplayName("User Service Unit Tests")
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
-
-    @InjectMocks private UserService underTest;
+    private UserService underTest;
     @Mock private UserRepository userRepository;
     @Mock private UserMapper userMapper;
+    @Mock private PasswordEncoder passwordEncoder;
     @Mock private ApplicationEventPublisher eventPublisher;
+
+    @BeforeEach
+    void setUp() {
+        underTest = new UserService(userMapper, userRepository, passwordEncoder, eventPublisher);
+    }
 
     @Test
     public void save() {
@@ -46,10 +52,13 @@ public class UserServiceTest {
         SignUpEvent event = new SignUpEvent(newUser);
 
         when(userMapper.signUpRequestToUser(request))
-                .thenReturn(newUser);
+            .thenReturn(newUser);
+
+        when(passwordEncoder.encode(request.password()))
+            .thenReturn(request.password());
 
         when(userRepository.save(newUser))
-                .thenReturn(newUser);
+            .thenReturn(newUser);
 
         underTest.save(request);
 
