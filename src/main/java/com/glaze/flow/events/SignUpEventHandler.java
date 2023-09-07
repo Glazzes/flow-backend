@@ -33,6 +33,6 @@ public class SignUpEventHandler {
     public void handleActivateAccountEvent(ActivateAccountEvent event) {
         event.user()
             .getDetails()
-            .setActive(true);
+            .setEnabled(true);
     }
 }

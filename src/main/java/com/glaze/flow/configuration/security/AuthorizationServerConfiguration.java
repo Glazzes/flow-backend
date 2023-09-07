@@ -100,11 +100,6 @@ public class AuthorizationServerConfiguration {
         return new ImmutableJWKSet<>(new JWKSet(key));
     }
 
-    @Bean
-    public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
-        return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
-    }
-
     private KeyPair getKeyPairFromKeyStore() throws Exception {
         ClassPathResource keyStoreFile = new ClassPathResource(KEY_STORE_FILE_LOCATION);
         String alias = keyStoreConfigurationProperties.keyAlias();
@@ -125,6 +120,11 @@ public class AuthorizationServerConfiguration {
         }
 
         return new KeyPair(publicKey, privateKey);
+    }
+
+    @Bean
+    public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
+        return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
     }
 
 }

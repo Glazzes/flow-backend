@@ -1,0 +1,17 @@
+@font-face {
+    font-family: 'Inter-ExtraBold';
+    src: url("../fonts/Inter-ExtraBold.ttf");
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    font-family: 'Inter-ExtraBold', serif;
+    font-size: 40px;
+}

@@ -10,15 +10,16 @@ import com.glaze.flow.events.ActivateAccountEvent;
 import com.glaze.flow.exceptions.ResourceExpiredException;
 import com.glaze.flow.exceptions.ResourceNotFoundException;
 import com.glaze.flow.repositories.OtpRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AccountService {
-
     private final OtpRepository otpRepository;
     private final ApplicationEventPublisher eventPublisher;
 
+    @Autowired
     public AccountService(OtpRepository otpRepository, ApplicationEventPublisher publisher) {
         this.otpRepository = otpRepository;
         this.eventPublisher = publisher;
