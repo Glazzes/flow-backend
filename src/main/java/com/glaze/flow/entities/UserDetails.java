@@ -29,17 +29,17 @@ public class UserDetails {
     @Column(name = "user_id", updatable = false)
     private Long id;
 
-    @Column(name = "is_active", nullable = false)
-    private boolean isActive;
+    @Column(name = "is_enabled", nullable = false)
+    private boolean isEnabled;
 
-    @Column(name = "is_non_locked", nullable = false)
-    private boolean isNonLocked;
+    @Column(name = "is_account_non_locked", nullable = false)
+    private boolean isAccountNonLocked;
 
-    @Column(name = "has_not_expired", nullable = false)
-    private boolean hasNotExpired;
+    @Column(name = "is_account_non_expired", nullable = false)
+    private boolean isAccountNonExpired;
 
-    @Column(name = "are_credentials_not_expired", nullable = false)
-    private boolean areCredentialsNonExpired;
+    @Column(name = "is_credentials_not_expired", nullable = false)
+    private boolean isCredentialsNotExpired;
 
     @MapsId
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
@@ -49,14 +49,18 @@ public class UserDetails {
         return new UserDetails(null, false, true, true, true, null);
     }
 
+    public static UserDetails getUnlockedAccountInstace() {
+        return new UserDetails(null, true, true, true, true, null);
+    }
+
     @Override
     public String toString() {
         return "UserDetails{" +
             "id=" + id +
-            ", is_active=" + isActive +
-            ", isNonLocked=" + isNonLocked +
-            ", hasNotExpired=" + hasNotExpired +
-            ", areCredentialsNonExpired=" + areCredentialsNonExpired +
+            ", is_active=" + isEnabled +
+            ", isNonLocked=" + isAccountNonLocked +
+            ", hasNotExpired=" + isAccountNonExpired +
+            ", areCredentialsNonExpired=" + isCredentialsNotExpired +
             '}';
     }
 
