@@ -31,6 +31,7 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
+import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.security.web.SecurityFilterChain;
@@ -51,7 +52,6 @@ public class AuthorizationServerConfiguration {
     @Order(1)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(httpSecurity);
-
         httpSecurity.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
             .oidc(Customizer.withDefaults());
 
@@ -64,10 +64,22 @@ public class AuthorizationServerConfiguration {
     }
 
     @Bean
+    @Order(2)
+    public SecurityFilterChain formLoginSecurityfilterChain(HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity
+            .securityMatcher(LOGIN_FORM_URL)
+            .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
+            .formLogin(form -> form.loginPage(LOGIN_FORM_URL))
+            .build();
+    }
+
+    @Bean
     public RegisteredClientRepository registeredClientRepository() {
         TokenSettings tokenSettings = TokenSettings.builder()
             .accessTokenTimeToLive(Duration.ofMinutes(15L))
             .refreshTokenTimeToLive(Duration.ofDays(15L))
+            .authorizationCodeTimeToLive(Duration.ofMinutes(5L))
+            .reuseRefreshTokens(true)
             .build();
 
         ClientSettings clientSettings = ClientSettings.builder()
@@ -77,16 +89,24 @@ public class AuthorizationServerConfiguration {
 
         RegisteredClient client = RegisteredClient.withId(UUID.randomUUID().toString())
             .clientId("flow")
-            .clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
+            .clientSecret("bcrypt encoded secret")
+            .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
             .clientSettings(clientSettings)
             .tokenSettings(tokenSettings)
             .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
             .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+            .scope(OidcScopes.EMAIL)
             .scope(OidcScopes.PROFILE)
             .redirectUri("https://google.com")
             .build();
 
         return new InMemoryRegisteredClientRepository(client);
+    }
+
+    @Bean
+    public AuthorizationServerSettings authorizationServerSettings() {
+        return AuthorizationServerSettings.builder()
+            .build();
     }
 
     @Bean

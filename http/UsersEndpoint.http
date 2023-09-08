@@ -1,4 +1,4 @@
-### Create new user, expect success - Status 200
+### Create new user - expects successful registration - Status 200
 POST http://localhost:8080/api/v1/users/account-registration
 Content-Type: application/json
 Accept-Language: es_ES
@@ -9,10 +9,10 @@ Accept-Language: es_ES
   "email": "santiagozapataposada7@gmail.com"
 }
 
-### Create new user, expect binding failure - Status 404
+### Create new user - expects binding failure - Status 400
 POST http://localhost:8080/api/v1/users/account-registration
 Content-Type: application/json
-Accept-Language: es_CO
+Accept-Language: es_ES
 
 {
   "username": "",

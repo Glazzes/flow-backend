@@ -1,6 +1,4 @@
 spring:
-  messages:
-    encoding: iso-8859-1
   profiles:
     active:
       - base

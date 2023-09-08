@@ -1,6 +1,3 @@
 spring:
   banner:
     location: classpath:/banner/banner.txt
-  messages:
-    basename: i18n/messages
-    fallback-to-system-locale: false

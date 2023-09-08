@@ -12,9 +12,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByEmail(String email);
 
     @Query("""
-    select u from User u
-    inner join UserDetails us on u.id = us.id
-    where u.username = ?1 or u.email = ?2
+    select user, details from User user
+    inner join UserDetails details on user.id = details.id
+    where user.username = ?1 or user.email = ?1
     """)
-    Optional<User> findByUsernameOrEmail(String username, String email);
+    Optional<User> findByUsernameOrEmail(String usernameOrEmail);
 }
