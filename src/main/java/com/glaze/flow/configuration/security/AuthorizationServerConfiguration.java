@@ -75,28 +75,32 @@ public class AuthorizationServerConfiguration {
 
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
-        TokenSettings tokenSettings = TokenSettings.builder()
-            .accessTokenTimeToLive(Duration.ofMinutes(15L))
-            .refreshTokenTimeToLive(Duration.ofDays(15L))
-            .authorizationCodeTimeToLive(Duration.ofMinutes(5L))
-            .reuseRefreshTokens(true)
-            .build();
-
-        ClientSettings clientSettings = ClientSettings.builder()
-            .requireProofKey(true)
-            .requireAuthorizationConsent(false)
-            .build();
-
         RegisteredClient client = RegisteredClient.withId(UUID.randomUUID().toString())
             .clientId("flow")
             .clientSecret("bcrypt encoded secret")
             .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-            .clientSettings(clientSettings)
-            .tokenSettings(tokenSettings)
-            .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-            .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-            .scope(OidcScopes.EMAIL)
-            .scope(OidcScopes.PROFILE)
+            .clientSettings(
+                ClientSettings.builder()
+                    .requireProofKey(true)
+                    .requireAuthorizationConsent(false)
+                    .build()
+            )
+            .tokenSettings(
+                TokenSettings.builder()
+                    .accessTokenTimeToLive(Duration.ofMinutes(15L))
+                    .refreshTokenTimeToLive(Duration.ofDays(15L))
+                    .authorizationCodeTimeToLive(Duration.ofMinutes(5L))
+                    .reuseRefreshTokens(true)
+                    .build()
+            )
+            .authorizationGrantTypes(grants -> {
+                grants.add(AuthorizationGrantType.AUTHORIZATION_CODE);
+                grants.add(AuthorizationGrantType.REFRESH_TOKEN);
+            })
+            .scopes(scopes -> {
+                scopes.add(OidcScopes.EMAIL);
+                scopes.add(OidcScopes.PROFILE);
+            })
             .redirectUri("https://google.com")
             .build();
 

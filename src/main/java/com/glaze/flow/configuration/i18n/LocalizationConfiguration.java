@@ -12,12 +12,12 @@ import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
 @Configuration
 public class LocalizationConfiguration {
-    private static final String MESSAGES_LOCATION = "i18n/messages";
+    private static final String CLASSPATH_MESSAGES_LOCATION = "i18n/messages";
 
     @Bean
     public MessageSource messageSource() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasename(MESSAGES_LOCATION);
+        messageSource.setBasename(CLASSPATH_MESSAGES_LOCATION);
         messageSource.setDefaultEncoding(StandardCharsets.ISO_8859_1.name());
         messageSource.setDefaultLocale(Locale.US);
         messageSource.setFallbackToSystemLocale(false);
