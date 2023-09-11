@@ -57,6 +57,10 @@ public class JpaRegisteredClientRepository implements RegisteredClientRepository
         return this.clientRepository.findByClientId(clientId).map(this::toObject).orElse(null);
     }
 
+    public boolean existsById(String id) {
+        return clientRepository.existsById(id);
+    }
+
     private RegisteredClient toObject(Oauth2Client client) {
         Set<String> clientAuthenticationMethods = StringUtils.commaDelimitedListToSet(
             client.getClientAuthenticationMethods());

@@ -6,9 +6,9 @@ import com.glaze.flow.entities.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class AuthenticatedUserDetails implements UserDetails {
+public class SecurityUserDetailsAdapter implements UserDetails {
     private final User authenticatedUser;
-    public AuthenticatedUserDetails(User user) {
+    public SecurityUserDetailsAdapter(User user) {
         this.authenticatedUser = user;
     }
 

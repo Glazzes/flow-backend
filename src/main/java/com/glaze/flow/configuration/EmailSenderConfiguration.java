@@ -10,6 +10,8 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 @Configuration
 public class EmailSenderConfiguration {
+    private static final String MAIL_AUTHENTICATION_PROPERTY = "mail.smtp.auth";
+    private static final String MAIL_ENABLE_TLS_PROPERTY = "mail.smtp.starttls.enable";
 
     @Bean
     public JavaMailSender javaMailSender(EmailConfigurationProperties emailConfigurationProperties) {
@@ -21,8 +23,8 @@ public class EmailSenderConfiguration {
         mailSender.setPassword(emailConfigurationProperties.password());
 
         Properties properties = new Properties();
-        properties.setProperty("mail.smtp.auth", "true");
-        properties.setProperty("mail.smtp.starttls.enable", "true");
+        properties.setProperty(MAIL_AUTHENTICATION_PROPERTY, Boolean.TRUE.toString());
+        properties.setProperty(MAIL_ENABLE_TLS_PROPERTY, Boolean.TRUE.toString());
 
         mailSender.setJavaMailProperties(properties);
         return mailSender;

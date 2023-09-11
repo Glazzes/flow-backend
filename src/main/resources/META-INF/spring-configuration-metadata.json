@@ -1,0 +1,18 @@
+{
+  "groups": [
+    {
+      "name": "application.oauth2-client",
+      "type": "com.glaze.flow.configuration.properties.DefaultOauth2ClientProperties",
+      "sourceType": "com.glaze.flow.configuration.properties.DefaultOauth2ClientProperties"
+    }
+  ],
+  "hints": [],
+  "properties": [
+    {
+      "name": "application.oauth2-client.client-secret",
+      "type": "java.lang.String",
+      "sourceType": "com.glaze.flow.configuration.properties.DefaultOauth2ClientProperties",
+      "description": "Bcrypt encoded string. Null values are not accepted."
+    }
+  ]
+}

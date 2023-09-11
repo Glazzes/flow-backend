@@ -6,7 +6,6 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
-import java.time.Duration;
 import java.util.UUID;
 
 import com.glaze.flow.configuration.properties.KeyStoreConfigurationProperties;
@@ -22,26 +21,18 @@ import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
-import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
-import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
-import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
-import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
 @Configuration
 public class AuthorizationServerConfiguration {
+    private final KeyStoreConfigurationProperties keyStoreConfigurationProperties;
     private static final String LOGIN_FORM_URL = "/login";
     private static final String KEY_STORE_FILE_LOCATION = "authentication/keystore.p12";
-    private final KeyStoreConfigurationProperties keyStoreConfigurationProperties;
 
     @Autowired
     public AuthorizationServerConfiguration(KeyStoreConfigurationProperties properties) {
@@ -71,40 +62,6 @@ public class AuthorizationServerConfiguration {
             .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
             .formLogin(form -> form.loginPage(LOGIN_FORM_URL))
             .build();
-    }
-
-    @Bean
-    public RegisteredClientRepository registeredClientRepository() {
-        RegisteredClient client = RegisteredClient.withId(UUID.randomUUID().toString())
-            .clientId("flow")
-            .clientSecret("bcrypt encoded secret")
-            .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-            .clientSettings(
-                ClientSettings.builder()
-                    .requireProofKey(true)
-                    .requireAuthorizationConsent(false)
-                    .build()
-            )
-            .tokenSettings(
-                TokenSettings.builder()
-                    .accessTokenTimeToLive(Duration.ofMinutes(15L))
-                    .refreshTokenTimeToLive(Duration.ofDays(15L))
-                    .authorizationCodeTimeToLive(Duration.ofMinutes(5L))
-                    .reuseRefreshTokens(true)
-                    .build()
-            )
-            .authorizationGrantTypes(grants -> {
-                grants.add(AuthorizationGrantType.AUTHORIZATION_CODE);
-                grants.add(AuthorizationGrantType.REFRESH_TOKEN);
-            })
-            .scopes(scopes -> {
-                scopes.add(OidcScopes.EMAIL);
-                scopes.add(OidcScopes.PROFILE);
-            })
-            .redirectUri("https://google.com")
-            .build();
-
-        return new InMemoryRegisteredClientRepository(client);
     }
 
     @Bean

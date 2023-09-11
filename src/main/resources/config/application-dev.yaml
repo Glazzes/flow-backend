@@ -1,8 +1,21 @@
 application:
+  oauth2-client:
+    id: 1e7512ca-5e31-4dba-a53e-8ced5f10f0e2
+    client-id: cf9d93f9-e01f-4745-9e42-0c435da6ad19
+    client-secret: $2a$12$p2kO/KdGoc6vIqVLTx96RezpB/uaMZAJwKGh1RV0LFDNlJMFzRjCS
+    scopes:
+      - "user.read"
+      - "user.write"
+    redirect-uris:
+      - "https://www.google.com"
   keystore:
     key-alias: flow
     key-store-type: PKCS12
     key-store-password: roof-cat
+
+logging:
+  level:
+    org.springframework.security.oauth2: trace
 
 spring:
   mail:

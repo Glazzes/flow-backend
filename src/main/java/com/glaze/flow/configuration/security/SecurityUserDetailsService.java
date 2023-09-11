@@ -19,7 +19,7 @@ public class SecurityUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
         return userRepository.findByUsernameOrEmail(usernameOrEmail)
-            .map(AuthenticatedUserDetails::new)
+            .map(SecurityUserDetailsAdapter::new)
             .orElseThrow(() -> new UsernameNotFoundException("Username not found xD"));
     }
 

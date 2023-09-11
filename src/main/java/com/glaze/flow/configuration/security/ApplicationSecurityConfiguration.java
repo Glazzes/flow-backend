@@ -36,6 +36,10 @@ public class ApplicationSecurityConfiguration {
         httpSecurity
             .csrf(CsrfConfigurer::disable)
             .authorizeHttpRequests(authorize -> authorize
+                .requestMatchers(
+                    HttpMethod.GET,
+                    "/users/me"
+                ).hasAuthority("SCOPE_profile")
                 .requestMatchers("/login").permitAll()
                 .requestMatchers(
                     HttpMethod.POST,
