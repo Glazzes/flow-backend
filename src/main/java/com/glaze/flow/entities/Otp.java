@@ -82,6 +82,6 @@ public class Otp {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, token, user.getId());
     }
 }
