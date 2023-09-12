@@ -10,7 +10,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class LocalizationConfiguration {
     private static final String CLASSPATH_MESSAGES_LOCATION = "i18n/messages";
 

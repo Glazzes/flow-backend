@@ -4,6 +4,8 @@ import java.time.Duration;
 
 import com.glaze.flow.configuration.properties.DefaultOauth2ClientProperties;
 import com.glaze.flow.configuration.security.oauth2.JpaRegisteredClientRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Component;
 public class Oauth2RegisteredClientPopulationConfiguration {
     private final JpaRegisteredClientRepository registeredClientRepository;
     private final DefaultOauth2ClientProperties clientProperties;
+    private static final Logger LOGGER = LoggerFactory.getLogger(Oauth2RegisteredClientPopulationConfiguration.class);
 
     @Autowired
     public Oauth2RegisteredClientPopulationConfiguration(
@@ -28,8 +31,9 @@ public class Oauth2RegisteredClientPopulationConfiguration {
     }
 
     public void populate() {
-        boolean clientAlreadyExists = registeredClientRepository.existsById(clientProperties.id());
-        if (clientAlreadyExists) {
+        boolean doesRegisteredClientExists = registeredClientRepository.existsById(clientProperties.id());
+        if (doesRegisteredClientExists) {
+            LOGGER.warn("Default Oauth2 RegisteredClient already exists");
             return;
         }
 
@@ -63,6 +67,7 @@ public class Oauth2RegisteredClientPopulationConfiguration {
             .redirectUris(uris -> uris.addAll(clientProperties.redirectUris()))
             .build();
 
+        LOGGER.info("Default Oauth2 RegisteredClient has been saved successfully");
         registeredClientRepository.save(registeredClient);
     }
 }

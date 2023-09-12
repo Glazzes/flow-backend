@@ -18,6 +18,14 @@ logging:
     org.springframework.security.oauth2: trace
 
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: client
+            client-secret: secret
+
   mail:
     host: ${MAIL_HOST:smtp.gmail.com}
     port: ${MAIL_PORT:587}

@@ -29,6 +29,6 @@ public class FlowBackendApplication implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        // registeredClientPopulationConfiguration.populate();
+        registeredClientPopulationConfiguration.populate();
     }
 }
